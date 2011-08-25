@@ -32,27 +32,48 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 
 import br.eti.kinoshita.selenium.util.SeleniumWebTestException;
 
 /**
- * This is a base class for data driven web tests.
+ * <p>An Excel data driven Selenium web test.</p>
  * 
- * TBD: Give the credits for the original author, as soon as you 
- * find his blog again. 
+ * <p>It behaves exactly as {@link SeleniumWebTest}, with the difference that 
+ * it contains a TestNG {@link DataProvider} that is created from an Excel 
+ * file. This Excel file name comes from selenium.properties.</p>
+ * 
+ * <p>This solution was found whilst navigating on the Internet. Check it 
+ * out here: http://www.qualitytesting.info/forum/topics/how-to-do-data-driven-using. 
+ * If you know whom is the original author, drop me a note please, and I will 
+ * make sure to have her/his name here as author, or I will pay some 
+ * Baden-Baden beers.</p>
+ * 
+ * <p>// TBD: think in a way to have Data Driven Tests from properties files, 
+ * XML, JSON, YAML, or any other test data source. Not only from Excel.</p>
  * 
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
+ * @author Cesar Fernandes de Almeida
  * @since 0.1
  */
 public abstract class DataDrivenSeleniumWebTest 
 extends SeleniumWebTest
 {
 
+	// To be able to have different loggers for selenium web tests and ddt's.
+	protected static final Logger LOGGER = LoggerFactory.getLogger( DataDrivenSeleniumWebTest.class );
+	
 	/**
-	 * @return Name of Table in the XLS file.
+	 * @return Name of Table in the XLS file. By default this value is "TABLE". 
+	 * Override this method and return the constant you used in your Excel files 
+	 * to delimit test data cells.
 	 */
-	public abstract String getTableName();
+	public String getTableName()
+	{
+		return "Table";
+	}
 	
 	/**
 	 * @return Name of the Sheet in the XLS file.
@@ -63,7 +84,7 @@ extends SeleniumWebTest
 	 * This is the method that enables data-driven tests. It returns an multi-
 	 * dimensional array of Objects to be used in tests. 
 	 * 
-	 * @return
+	 * @returnan multidimensional array of Objects to be used in tests. 
 	 * @throws SeleniumWebTestException
 	 */
 	@DataProvider(name = "DataExcel")
@@ -71,7 +92,7 @@ extends SeleniumWebTest
 	throws SeleniumWebTestException 
 	{
 		Object[][] xlsDataArray = getTableArray(getSheetName(), getTableName());
-	    LOG.debug("Data-driven test object[][] array: " + Arrays.toString(xlsDataArray));
+	    LOGGER.debug("Data-driven test object[][] array: " + Arrays.toString(xlsDataArray));
 		return xlsDataArray;
 	}
 	
@@ -88,9 +109,9 @@ extends SeleniumWebTest
 	throws SeleniumWebTestException
 	{
 		String[][] tableArray = null;
-	    String xlsFile = config.getXls();
+	    String xlsFile = getConfiguration().getString("selenium.xls");
 	    
-	    LOG.debug("Opening excel file " + xlsFile);
+	    LOGGER.debug("Opening excel file " + xlsFile);
 	    
 		String xlsFilePath = null;
 	    
@@ -113,7 +134,7 @@ extends SeleniumWebTest
 		    endRow=tableEnd.getRow();
 		    endCol=tableEnd.getColumn();
 		    
-		    LOG.debug("startRow="+startRow+", endRow="+endRow+", startCol="+startCol+", endCol="+endCol);
+		    LOGGER.debug("startRow="+startRow+", endRow="+endRow+", startCol="+startCol+", endCol="+endCol);
 		    
 		    tableArray = new String[endRow-startRow-1][endCol-startCol-1];
 		    ci=0;
@@ -127,7 +148,7 @@ extends SeleniumWebTest
 		        }
 		    }
 		    
-		    // TBD: verify if it's ok
+		    // TBD: verify if it's really ok to throw this exception here
 		    if ( tableArray.length <= 0 )
 		    {
 		    	throw new SeleniumWebTestException("Empty excel data.");
@@ -137,12 +158,12 @@ extends SeleniumWebTest
 		} 
 		catch ( IOException ioe )
 		{
-			LOG.fatal("IO Exception retrieving table array from Excel: " + ioe.getMessage(), ioe);
+			LOGGER.error("IO Exception retrieving table array from Excel: " + ioe.getMessage(), ioe);
 			throw new SeleniumWebTestException(ioe);
 		}
 		catch ( BiffException be )
 		{
-			LOG.fatal("Internal error retrieving table array from Excel: " + be.getMessage(), be);
+			LOGGER.error("Internal error retrieving table array from Excel: " + be.getMessage(), be);
 			throw new SeleniumWebTestException(be);
 		}
 	}	

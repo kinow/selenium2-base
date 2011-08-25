@@ -23,52 +23,34 @@
  */
 package br.eti.kinoshita.selenium.util;
 
-import br.eti.kinoshita.selenium.model.SeleniumPropertiesBean;
 
 /**
+ * This is the only exception threw by this API.
+ * 
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
- * @since 07/01/2011
+ * @since 0.1
  */
 public class SeleniumWebTestException 
 extends RuntimeException
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public SeleniumPropertiesBean seleniumPropertiesForm;
-	
-	public SeleniumWebTestException(String url, String xls, Long timeout, String browser, Throwable t)
+
+	private static final long serialVersionUID = -3423763672592337603L;
+
+	public SeleniumWebTestException()
 	{
 		super();
-		this.seleniumPropertiesForm.setUrl(url);
-		this.seleniumPropertiesForm.setXls(xls);
-		this.seleniumPropertiesForm.setTimeout(timeout);
-		this.seleniumPropertiesForm.setBrowser(browser);
 	}
 
-	
-	/**
-	 * @param message
-	 * @param cause
-	 */
 	public SeleniumWebTestException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}
 
-	/**
-	 * @param message
-	 */
 	public SeleniumWebTestException(String message)
 	{
 		super(message);
 	}
 
-	/**
-	 * @param cause
-	 */
 	public SeleniumWebTestException(Throwable cause)
 	{
 		super(cause);

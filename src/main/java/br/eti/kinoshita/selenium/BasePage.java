@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
- * 
- * Copyright (c) 2011 Bruno P. Kinoshita <http://www.kinoshita.eti.br>
+ *
+ * Copyright (c) <2011> <Bruno P. Kinoshita>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,75 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package br.eti.kinoshita.selenium.model;
+package br.eti.kinoshita.selenium;
 
-import java.io.Serializable;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
 /**
- * TBD: replace it with apache commons configuration API.
+ * Base page for Page Objects pattern.
  * 
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
  * @since 0.1
  */
-public class SeleniumPropertiesBean 
-implements Serializable
+public class BasePage
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private WebDriver driver;
+	private int timeOutInSeconds;
+
+	public BasePage( WebDriver driver, int timeOutInSeconds )
+	{
+		this.driver = driver;
+		this.timeOutInSeconds = timeOutInSeconds;
+		
+		ElementLocatorFactory finder = 
+			new AjaxElementLocatorFactory(driver, timeOutInSeconds);
+		PageFactory.initElements( finder, this );
+	}
 	
-	private String url;
-	private String xls;
-	private Long timeout;
-	private String browser;
+	public WebDriver getDriver()
+	{
+		return this.driver;
+	}
 	
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
+	public long getTimeout()
+	{
+		return this.timeOutInSeconds;
 	}
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	/**
-	 * @return the xls
-	 */
-	public String getXls() {
-		return xls;
-	}
-	/**
-	 * @param xls the xls to set
-	 */
-	public void setXls(String xls) {
-		this.xls = xls;
-	}
-	/**
-	 * @return the timeout
-	 */
-	public Long getTimeout() {
-		return timeout;
-	}
-	/**
-	 * @param timeout the timeout to set
-	 */
-	public void setTimeout(Long timeout) {
-		this.timeout = timeout;
-	}
-	/**
-	 * @return the browser
-	 */
-	public String getBrowser() {
-		return browser;
-	}
-	/**
-	 * @param browser the browser to set
-	 */
-	public void setBrowser(String browser) {
-		this.browser = browser;
-	}
+	
 }

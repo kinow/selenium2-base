@@ -27,103 +27,91 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * A screen shot bean.
+ * <p>
+ * A screen shot taken by Selenium. This bean is used to generate a TAP Stream
+ * containing Base64 encoded images.
+ * </p>
  * 
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
+ * @see <a href="http://www.testanything.org">Test Anything Protocol</a>
  * @since 0.1
  */
-public class SeleniumScreenshot 
-implements Serializable
+public class SeleniumScreenshot implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 2634058555572731340L;
 
 	private File file;
 	private String description;
 	private String fileType;
 	private String title;
 
-	/**
-	 * @return the file
-	 */
-	public File getFile() {
-		return file;
-	}
-
-	/**
-	 * @param file the file to set
-	 */
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @return the fileType
-	 */
-	public String getFileType() {
-		return fileType;
-	}
-
-	/**
-	 * @param fileType the fileType to set
-	 */
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
-	}
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	/**
-	 * 
-	 */
 	public SeleniumScreenshot()
 	{
 		super();
 	}
 
 	/**
+	 * Constructor with parameters.
+	 * 
 	 * @param file
+	 *            The screen shot original file.
 	 * @param description
+	 *            A description for the screen shot.
 	 * @param fileType
+	 *            MIME file-type.
 	 * @param title
+	 *            A title for the screen shot. Be creative!
 	 */
 	public SeleniumScreenshot(File file, String description, String fileType,
 			String title)
 	{
 		super();
-		
-		this.file=file;
-		this.description=description;
-		this.fileType=fileType;
-		this.title=title;
+
+		this.file = file;
+		this.description = description;
+		this.fileType = fileType;
+		this.title = title;
 	}
-	
+
+	public File getFile()
+	{
+		return file;
+	}
+
+	public void setFile( File file )
+	{
+		this.file = file;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription( String description )
+	{
+		this.description = description;
+	}
+
+	public String getFileType()
+	{
+		return fileType;
+	}
+
+	public void setFileType( String fileType )
+	{
+		this.fileType = fileType;
+	}
+
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public void setTitle( String title )
+	{
+		this.title = title;
+	}
+
 }
