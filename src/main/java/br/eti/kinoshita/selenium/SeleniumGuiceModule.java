@@ -67,6 +67,7 @@ implements Module
 			}
 			else if ( browser.equals("chrome") )
 			{
+				System.setProperty("webdriver.chrome.driver", "/opt/google/chrome/chromedriver");
 				DRIVER = new ChromeDriver();
 			}
 			else
