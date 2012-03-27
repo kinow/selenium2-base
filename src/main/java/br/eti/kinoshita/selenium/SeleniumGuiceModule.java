@@ -6,11 +6,14 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +72,11 @@ implements Module
 			{
 				System.setProperty("webdriver.chrome.driver", "/opt/google/chrome/chromedriver");
 				DRIVER = new ChromeDriver();
+			}
+			else if ( browser.equals("remote") ) 
+			{
+				final Capabilities capabilities = new DesiredCapabilities();
+				DRIVER = new RemoteWebDriver(capabilities);
 			}
 			else
 			{
